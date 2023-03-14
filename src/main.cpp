@@ -53,16 +53,14 @@ bool letterInWord(char letter, string word){
     for(int  i=0; i<wordSize; i++){
         if(word[i]==letter){
             return true;
-        }else{
-            return false;
         }
     }
+    return false;
 }
 
 bool rightWord(const vector<char> letters, string word){
     const int wordSize = word.size();
     const int letterListSize = letters.size();
-    char currentLetter;
     if(wordSize != letterListSize){
         return false;
     }
@@ -74,7 +72,7 @@ bool rightWord(const vector<char> letters, string word){
     return true;
 }
 
-void display(string word, const vector<char> letters){
+void display(string word, vector<char> letters){
     const int wordSize = word.size();
     for(int i=0; i<wordSize; i++){
         if(word[i]==letters[i]){
@@ -83,37 +81,46 @@ void display(string word, const vector<char> letters){
             cout << "_ ";
         }
     }
+    print("\n\n");
 }
 
-void addRigtLetter(char letter, vector<char> userWord, string word){
+vector<char> addRigtLetter(char letter, vector<char> a, string word){
     const int wordSize = word.size();
     for(int i=0; i<wordSize; i++){
         if(letter==word[i]){
-            userWord[i] = letter;
+            a[i] = letter;
         }
     }
+    return a;
 }
 
 int main(){
     print("Bienvenu dans le jeu du pendu !\n\n");
-    int userTry = iInput("Entrer le nombre d'essais que vous souhaitez :");
+    int userTry = iInput("Entrer le nombre d'essais que vous souhaitez : ");
     string word = randomWord();
+    char currentLetter;
+    print(word);
     vector<char> userWord(word.size());
-    const int wordSize = word.size();
     bool win = false;
+    print("Mot a deviner :\n");
+    const int wordSize = word.size();
+    for(int a=0; a<wordSize; a++){
+        cout << "_ ";
+    }
+    print("\n\n\n");
     while(win == false || userTry != 0){
-        char currentLetter = askLetter();
+        currentLetter = askLetter();
         if(rightWord(userWord, word)){
             win = true;
         }if(letterInWord(currentLetter, word)){
             cout << "La lettre " << currentLetter << " est dans le mot !\n" << endl;
-            addRigtLetter(currentLetter, userWord, word);
+            userWord = addRigtLetter(currentLetter, userWord, word);
             display(word, userWord);
         }else{
             userTry --;
             print("\nCette lettre n'est pas dans le mot !");
             display(word, userWord);
-            cout << "Il vous reste maintenant " << userTry << " essais restant !" << endl;
+            cout << "Il vous reste maintenant " << userTry << " essais !" << endl;
         }
     }
     return 0;
