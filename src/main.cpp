@@ -78,7 +78,8 @@ int main(){
     while(win == false || userTry != 0){
         char currentLetter = askLetter();
         if(letterInWord(currentLetter, word)){
-
+            cout << "La lettre " << currentLetter << " est dans le mot !" << endl;
+            findLetter.insert(findLetter.end(), currentLetter);
         }else{
             userTry --;
             print("\nCette lettre n'est pas dans le mot !");
